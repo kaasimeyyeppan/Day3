@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html manifest="cache.manifest">
+<head>
+<meta charset="UTF-8">
+<title>Page 1</title>
+<script src="Sample.js"></script>
+<script>
+	window.applicationCache.addEventListener("error", function(e) {
+		alert("Error fetching manifest: you are offline");
+	});
+</script>
+</head>
+<body>
+	<h1>THis is modified page 1</h1>
+</body>
+</html>

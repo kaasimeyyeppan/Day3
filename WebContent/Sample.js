@@ -1,0 +1,1 @@
+alert("The time is - "+ new Date());
