@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="jquery.mobile-1.0.css">
+<link rel="stylesheet" href="jquery.mobile.theme-1.1.1.css">
+<script src="jquery-1.7.2.min.js"></script>
+<script src="jquery.mobile-1.1.1.min.js"></script>
+<script>
+	function loginAjax() {
+		$.ajax({
+			url : "login.jsp",
+			data : {
+				username : $("#user").val(),
+				password : $("#password").val()
+			},
+			success : function(response) {
+				changePageToCountries();
+			}
+
+		});
+	}
+
+	function changePageToCountries() {
+		loadCountries();
+		$.mobile.changePage("#countryPage");
+	}
+
+	function loadCountries() {
+		$.getJSON("countries.jsp", function(data) {
+			var countryHtml = '<ul data-role="listview" data-inset="true">';
+			for (i = 0; i < data.countries.length; i++) {
+				countryHtml += "<li>" + data.countries[i] + "</li>";
+			}
+			countryHtml += "</ul>"
+			$("#countries").html(countryHtml);
+		});
+	}
+	$().ready(function() {
+		$("#login").on("click", loginAjax);
+	});
+</script>
+</head>
+<body>
+
+	<div data-role="page" id="homePage">
+		<div data-role="header" data-theme="a">
+			<h1>Welcome to Mobile Training</h1>
+		</div>
+		<div data-role="content" data-theme="c">
+			<label for="user">User : <input type="text" id="user"
+				value="" size="20" /></label> <label for="password">Password : <input
+				type="password" id="password" size="20" /></label> <label for="rememberChk">
+				Remember Me <input type="checkbox" id="rememberChk">
+			</label>
+			<lable for="login">
+			<div data-role="button" id="login">Login</div>
+			</lable>
+		</div>
+		<div data-role="footer" data-theme="d">
+			<div align="right">Copyrights - Banca Sella Chennai Branch</div>
+		</div>
+	</div>
+	<div data-role="page" id="countryPage">
+		<div data-role="header">
+			<h1>Countries</h1>
+		</div>
+		<div data-role="content">
+			<div data-role="collapsable-set">
+				<div id="countries"></div>
+			</div>
+		</div>
+		<div data-role="footer" data-theme="d">
+			<div align="right">Copyrights - Banca Sella Chennai Branch</div>
+		</div>
+	</div>
+	<div data-role="page" id="cityPage">
+		<div data-role="header">
+			<h1>Cities</h1>
+		</div>
+		<div data-role="footer" data-theme="d">
+			<div align="right">Copyrights - Banca Sella Chennai Branch</div>
+		</div>
+	</div>
+</body>
+</html>

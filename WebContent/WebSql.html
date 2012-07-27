@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Web SQL</title>
+<script>
+ 
+ function createTbl(txn){
+	 var query = "create table if not exists persons(id unique, name, age)";
+	 txn.executeSql(query);
+ }
+ 
+ function createRecord(txn){
+	 var stmt = "insert into persons values(?, ?, ?)";
+	 txn.executeSql(stmt, [1, 'Sam', 45], onSuccess, onError);
+ }
+
+ function onSuccess(txn){
+	 alert("Successfully inserted");
+ }
+ 
+ function onError(txn, error){
+	 alert("Error on insertion - "+ error.message);
+ }
+ 
+ function displayRecords(txn){
+	 var query = "select * from persons";
+	 txn.executeSql(query, [], function(tx, results){
+		 var count = results.rows.length;
+		 for(var i=0; i < count; i++){
+			var row = results.rows.item(i);
+			alert(row.name +", "+row.age);
+		 }
+	 });
+ }
+ var db = openDatabase("sella", "Training db", "1.0", 10000000);
+ db.transaction(createTbl);
+ //db.transaction(createRecord);
+ db.transaction(displayRecords);
+ 
+</script>
+</head>
+<body>
+
+</body>
+</html>
